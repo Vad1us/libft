@@ -27,20 +27,31 @@ SRCS =	get_next_line.c \
 		ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c ft_lstdelone.c  \
 		ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_strnlen.c ft_recursive_factorial.c \
 		ft_swap.c ft_sqrt.c ft_r.c ft_arg_join.c
-OBJ =	$(SRCs:.c=.o)
+
+OBJ =	$(SRCS:.c=.o)
 
 $(NAME):
-	make ./printf/
+	@make -C ./printf/
 	gcc $(FLAG) $(OPT) $(SRCS)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
+	@echo "\x1b[32mLibrary is successfully built\x1b[0m"
 
 all: $(NAME)
 
+%.o:	%.c
+		@gcc -g -o $@ -c $<
+
 clean:
 	@ /bin/rm -f $(OBJ)
+	@echo "\x1b[33mObject files are cleaned\x1b[0m"
 
 fclean: clean
 	@ /bin/rm -f $(NAME)
+	@echo "\x1b[33mAll is cleaned\x1b[0m"
 
 re: fclean all
+
+.PHONY: all clean fclean re
+
+.NOTPARALLEL: all clean fclean re
